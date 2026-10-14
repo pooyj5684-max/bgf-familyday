@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#3CB149">
+<title>BGF 가족초청행사 행운 복권</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+<style>
+:root{--g:#3CB149;--gd:#2A8E37;--gl:#E6F5E8;--k:#111111;--gray:#5D5D5D;--sil:#E2E2E2;--y:#FFC14A;--p:#8B5BE0;--cream:#FFFDF6}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:Pretendard,-apple-system,sans-serif;background:var(--g);color:var(--k);-webkit-tap-highlight-color:transparent;overflow-x:hidden}
+img{-webkit-user-drag:none;user-select:none;-webkit-user-select:none;pointer-events:none}
+
+.scr{position:relative;max-width:430px;min-height:100vh;min-height:100dvh;margin:0 auto;background:var(--g);display:flex;flex-direction:column;overflow:hidden;
+  padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
+/* 모눈 종이 배경 */
+.scr::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.13) 2px,transparent 2px),linear-gradient(90deg,rgba(255,255,255,.13) 2px,transparent 2px);background-size:46px 46px;pointer-events:none}
+
+.top{position:relative;display:flex;justify-content:space-between;align-items:center;padding:16px 22px 0}
+.cnt{font-size:11px;font-weight:700;color:var(--g);background:#fff;border-radius:99px;padding:5px 10px}
+.cnt[hidden]{display:none}
+.logo{font-weight:900;font-size:22px;color:#fff;letter-spacing:-1px}
+.logo small{font-weight:600;font-size:11px;letter-spacing:0;opacity:.85;margin-left:6px}
+
+.title{position:relative;text-align:center;color:#fff;margin-top:10px}
+.title .eb{display:inline-block;font-size:12px;font-weight:700;background:rgba(0,0,0,.18);padding:5px 12px;border-radius:99px;margin-bottom:8px}
+.title h1{font-family:Jua,sans-serif;font-weight:400;font-size:40px;line-height:1.08;letter-spacing:-1px;text-shadow:0 3px 0 var(--gd)}
+.title h1 em{font-style:normal;color:var(--y)}
+.title .won{display:none}
+
+.stage{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 18px 22px}
+.peek{position:relative;z-index:2;height:clamp(110px,18vh,150px);margin-top:6px;display:flex;align-items:flex-end;justify-content:center}
+.peek img{display:block;max-height:100%;width:auto}
+.peek .box{display:none}
+
+/* 복권 카드 */
+.ticket{position:relative;z-index:3;width:100%;background:var(--cream);border:3px solid var(--k);border-radius:22px;padding:16px 16px 18px;margin-top:-22px;box-shadow:0 6px 0 var(--k)}
+.ticket::before,.ticket::after{content:"";position:absolute;top:96px;width:22px;height:22px;background:var(--g);border:3px solid var(--k);border-radius:50%}
+.ticket::before{left:-13px;clip-path:inset(0 0 0 50%)}
+.ticket::after{right:-13px;clip-path:inset(0 50% 0 0)}
+.t-head{display:flex;justify-content:space-between;align-items:center;padding-bottom:14px;border-bottom:2.5px dashed #cfcfc6;margin-bottom:16px}
+.t-head h2{font-family:Jua,sans-serif;font-weight:400;font-size:21px}
+.t-head h2 b{color:var(--g);font-weight:400}
+.t-head p{font-size:11px;color:var(--gray);margin-top:2px}
+.stamp{flex:none;width:54px;height:54px;border-radius:50%;border:2.5px solid var(--g);color:var(--g);display:grid;place-items:center;text-align:center;font-weight:800;font-size:10px;line-height:1.15;transform:rotate(-12deg)}
+.stamp .ok{display:none;font-size:11px}
+
+.area{position:relative;height:210px;border-radius:14px;overflow:hidden;border:2.5px solid var(--k)}
+.prize{position:absolute;inset:0;background:radial-gradient(circle at 50% 120%,#FFE7A6 0,#FFF6DC 55%,#fff 100%);display:flex;align-items:center;gap:6px;padding:0 14px}
+.prize img{width:min(150px,40%);flex:none}
+.prize .txt{flex:1;min-width:0}
+.prize .rk{display:inline-block;background:var(--g);color:#fff;font-family:Jua,sans-serif;font-size:15px;padding:3px 10px;border-radius:8px}
+.prize h3{font-family:Jua,sans-serif;font-weight:400;font-size:30px;line-height:1.05;margin:6px 0 4px;letter-spacing:-.5px}
+.prize h3 small{display:block;font-size:19px;color:var(--gd);letter-spacing:-.3px}
+.prize p{font-size:12px;color:var(--gray);line-height:1.4}
+.prize p.claim{display:none;font-size:14px;font-weight:800;color:var(--k)}
+
+/* 스크래치 코팅 */
+.coat{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:grab;transition:opacity .5s}
+.hint{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;gap:6px;transition:opacity .3s}
+.coin{width:56px;height:56px;border-radius:50%;background:var(--y);border:3px solid var(--k);display:grid;place-items:center;font-family:Jua,sans-serif;font-size:22px;box-shadow:0 3px 0 var(--k);animation:rub 1.6s ease-in-out infinite}
+@keyframes rub{0%,100%{transform:translate(-26px,4px) rotate(-14deg)}50%{transform:translate(26px,-4px) rotate(14deg)}}
+.hint b{font-family:Jua,sans-serif;font-weight:400;font-size:22px;color:var(--k);background:rgba(255,255,255,.85);padding:2px 12px;border-radius:99px}
+.hint small{font-size:11px;color:var(--gray);font-weight:600}
+.flake{display:none;position:absolute;background:#cfd2cf;border:1.5px solid #9a9d9a}
+
+.next{display:none;position:relative;z-index:3;width:100%;height:56px;margin-top:22px;border-radius:16px;border:3px solid var(--k);background:var(--y);color:var(--k);font-family:Jua,sans-serif;font-size:20px;box-shadow:0 4px 0 var(--k);cursor:pointer}
+.next:active{transform:translateY(3px);box-shadow:0 1px 0 var(--k)}
+body.won .next.on{display:block}
+.note{position:relative;color:#fff;font-size:11px;text-align:center;padding-top:18px;opacity:.9}
+
+/* 참석 인원 선택 */
+.choose{display:none;position:relative;z-index:3;width:100%;background:var(--cream);border:3px solid var(--k);border-radius:22px;padding:20px 16px 18px;margin-top:-22px;box-shadow:0 6px 0 var(--k);text-align:center}
+.choose h2{font-family:Jua,sans-serif;font-weight:400;font-size:22px}
+.choose h2 b{color:var(--g);font-weight:400}
+.choose>p{font-size:12px;color:var(--gray);margin:4px 0 16px}
+.opt{display:flex;align-items:center;justify-content:space-between;width:100%;height:68px;padding:0 18px;margin-top:12px;border-radius:16px;border:3px solid var(--k);background:#fff;color:var(--k);font-family:Jua,sans-serif;font-size:21px;box-shadow:0 4px 0 var(--k);cursor:pointer}
+.opt span{font-family:Pretendard,sans-serif;font-size:12px;font-weight:800;color:#fff;background:var(--g);border-radius:99px;padding:4px 10px}
+.opt:active{transform:translateY(3px);box-shadow:0 1px 0 var(--k);background:var(--y)}
+body.pick .choose{display:block}
+body.pick .ticket,body.pick .cnt,body.pick .n-play,.n-pick{display:none}
+body.pick .n-pick{display:inline}
+
+/* 당첨 연출 */
+.burst{display:none;position:absolute;left:50%;top:150px;width:620px;height:620px;margin-left:-310px;background:repeating-conic-gradient(rgba(255,255,255,.16) 0 10deg,transparent 10deg 20deg);border-radius:50%;
+  -webkit-mask:radial-gradient(circle,#000 30%,transparent 68%);mask:radial-gradient(circle,#000 30%,transparent 68%);animation:spin 40s linear infinite;pointer-events:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:6}
+.conf{position:absolute;top:-24px;width:10px;height:16px;border:2px solid var(--k);border-radius:3px;animation:fall linear forwards}
+@keyframes fall{to{transform:translate(var(--dx),110vh) rotate(var(--r))}}
+.won-ribbon{display:none;position:absolute;z-index:5;top:-16px;left:50%;transform:translateX(-50%) rotate(-3deg);background:var(--y);border:3px solid var(--k);font-family:Jua,sans-serif;font-size:18px;padding:4px 18px;border-radius:12px;white-space:nowrap;box-shadow:0 3px 0 var(--k)}
+
+body.won .burst,body.won .won-ribbon,body.won .flake{display:block}
+body.won .title .before,body.won .peek .group,body.won .stamp .pre,body.won .prize p.msg,body.won .note{display:none}
+body.won .title .won,body.won .peek .box,body.won .stamp .ok,body.won .prize p.claim{display:block}
+body.won .title h1{font-size:36px}
+body.won .ticket{margin-top:-30px}
+body.won .stamp{background:var(--g);color:#fff}
+body.won .coat{opacity:0;pointer-events:none}
+body.won .hint{opacity:0}
+
+@media (max-height:700px){
+  .title h1{font-size:34px} body.won .title h1{font-size:30px}
+  .area{height:190px}
+}
+@media (prefers-reduced-motion:reduce){
+  .coin,.burst{animation:none}
+  .confetti{display:none}
+  .coat,.hint{transition:none}
+}
+</style>
+</head>
+<body>
+<main class="scr">
+  <div class="burst" aria-hidden="true"></div>
+  <header class="top"><div class="logo">BGF<small>Be Good Friends</small></div><div class="cnt" id="cnt" hidden></div></header>
+
+  <div class="title">
+    <div class="eb">2026 BGF 가족초청행사</div>
+    <h1 class="before">행운을 <em>긁어</em><br>보세요!</h1>
+    <h1 class="won">축하해요!<br><em>경품</em> 당첨!</h1>
+  </div>
+
+  <div class="stage">
+    <div class="peek">
+      <img class="group" src="assets/char_group.png" alt="">
+      <img class="box" src="assets/char_box.png" alt="">
+    </div>
+
+    <section class="choose">
+      <h2>몇 분이 <b>참석</b>하셨나요?</h2>
+      <p>참석 인원만큼 복권을 긁을 수 있어요</p>
+      <button class="opt" type="button" data-n="1">부모/자녀 1명 참석<span>복권 1장</span></button>
+      <button class="opt" type="button" data-n="2">부모/자녀 2명 참석<span>복권 2장</span></button>
+    </section>
+
+    <section class="ticket">
+      <div class="won-ribbon">WINNER!</div>
+      <div class="t-head">
+        <div><h2>오늘의 <b>행운</b> 복권</h2><p>부모님·자녀 각 1장 · 행사 당일 현장 수령</p></div>
+        <div class="stamp"><span class="pre">BGF<br>FAMILY<br>DAY</span><span class="ok">당첨<br>확인</span></div>
+      </div>
+
+      <div class="area" id="area">
+        <div class="prize">
+          <img src="assets/char_hug.png" alt="">
+          <div class="txt">
+            <span class="rk">당첨</span>
+            <h3><small>CU 기프트카드</small>5만원권</h3>
+            <p class="msg">축하해요!<br>함께해서 더 즐거운 하루</p>
+            <p class="claim">경품 당첨되시면<br>손을 들어주세요!</p>
+          </div>
+        </div>
+        <i class="flake" style="left:-4px;top:-4px;width:34px;height:22px;border-radius:0 0 14px 2px"></i>
+        <i class="flake" style="right:-6px;top:-6px;width:46px;height:30px;border-radius:0 0 4px 18px"></i>
+        <i class="flake" style="right:-4px;bottom:-4px;width:28px;height:40px;border-radius:16px 0 0 0"></i>
+        <i class="flake" style="left:-4px;bottom:-4px;width:52px;height:18px;border-radius:0 14px 0 0"></i>
+        <canvas class="coat" id="coat" aria-label="스크래치 영역"></canvas>
+        <div class="hint" id="hint"><div class="coin">B</div><b>여기를 긁어주세요</b><small>손가락으로 문질러 결과를 확인하세요</small></div>
+      </div>
+    </section>
+
+    <button class="next" id="next" type="button"></button>
+    <p class="note"><span class="n-pick">인원은 한 번 선택하면 바꿀 수 없어요</span><span class="n-play">결과는 긁은 뒤 다시 바뀌지 않아요</span></p>
+  </div>
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
+</main>
+
+<script>
+(function(){
+  var area=document.getElementById('area'),c=document.getElementById('coat'),hint=document.getElementById('hint');
+  var x=c.getContext('2d',{willReadFrequently:true});
+  var cnt=document.getElementById('cnt'),next=document.getElementById('next');
+  var done=false,touched=false,down=false,last=null,paintedW=0,moves=0;
+
+  // 첫 화면에서 고른 참석 인원(1~2)만큼 이 기기에서 긁을 수 있음. 한 번 고르면 변경 불가
+  var KEY='bgf-scratch-used',KEY_TOTAL='bgf-scratch-total',used=0,total=0;
+  try{used=parseInt(localStorage.getItem(KEY),10)||0;total=parseInt(localStorage.getItem(KEY_TOTAL),10)||0;}catch(err){}
+  if(total!==1&&total!==2)total=0;
+  function save(){try{localStorage.setItem(KEY,String(used));localStorage.setItem(KEY_TOTAL,String(total));}catch(err){}}
+
+  function updateCount(){
+    if(total<2)return;
+    cnt.hidden=false;
+    cnt.textContent=total+'장 중 '+Math.min(used+(done?0:1),total)+'번째';
+    var left=total-used;
+    next.classList.toggle('on',done&&left>0);
+    next.textContent='한 명 더 긁기!';
+  }
+
+  function paint(){
+    var r=area.getBoundingClientRect(),d=window.devicePixelRatio||1,w=c.clientWidth,h=c.clientHeight;
+    paintedW=r.width;
+    c.width=Math.round(w*d);c.height=Math.round(h*d);
+    x.setTransform(d,0,0,d,0,0);
+    x.globalCompositeOperation='source-over';
+    var g=x.createLinearGradient(0,0,w,h);
+    g.addColorStop(0,'#E2E2E2');g.addColorStop(.45,'#F4F4F4');g.addColorStop(.55,'#D2D2D2');g.addColorStop(1,'#E2E2E2');
+    x.fillStyle=g;x.fillRect(0,0,w,h);
+    x.save();x.translate(w/2,h/2);x.rotate(-20*Math.PI/180);
+    x.font='800 13px Pretendard, sans-serif';x.fillStyle='rgba(93,93,93,.18)';
+    for(var yy=-h,row=0;yy<h;yy+=26,row++)for(var xx=-w;xx<w;xx+=170)x.fillText('BGF ♥ Be Good Friends',xx+(row%2?85:0),yy);
+    x.restore();
+    x.globalCompositeOperation='destination-out';
+    x.lineWidth=36;x.lineCap='round';x.lineJoin='round';
+  }
+
+  function pos(e){var r=c.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top];}
+
+  function draw(e){
+    if(!down||done)return;
+    e.preventDefault();
+    var p=pos(e),from=last||p;
+    x.beginPath();x.moveTo(from[0],from[1]);x.lineTo(p[0]+.01,p[1]);x.stroke();
+    last=p;
+    if(!touched){touched=true;hint.style.opacity=0;}
+    if(++moves%12===0)check();
+  }
+
+  function check(){
+    if(done)return;
+    var d=x.getImageData(0,0,c.width,c.height).data,n=0,t=0;
+    for(var i=3;i<d.length;i+=64){t++;if(d[i]===0)n++;}
+    if(n/t>.5)reveal();
+  }
+
+  function reveal(){
+    if(done)return;
+    done=true;down=false;
+    used++;save();
+    document.body.classList.add('won');
+    updateCount();
+    if(navigator.vibrate){try{navigator.vibrate(50);}catch(err){}}
+    confetti();
+  }
+
+  function nextTicket(){
+    if(!done||used>=total)return;
+    done=false;touched=false;down=false;last=null;moves=0;
+    paint();
+    hint.style.opacity='';
+    document.body.classList.remove('won');
+    updateCount();
+    window.scrollTo(0,0);
+  }
+  next.addEventListener('click',nextTicket);
+
+  function confetti(){
+    if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    var box=document.getElementById('confetti'),cols=['#FFC14A','#8B5BE0','#FFFFFF'];
+    for(var i=0;i<36;i++){
+      var el=document.createElement('i');el.className='conf';
+      el.style.left=(Math.random()*100)+'%';
+      el.style.background=cols[i%3];
+      el.style.setProperty('--dx',(Math.random()*80-40)+'px');
+      el.style.setProperty('--r',(Math.random()*720-360)+'deg');
+      el.style.animationDuration=(2.4+Math.random()*2)+'s';
+      el.style.animationDelay=(Math.random()*.8)+'s';
+      box.appendChild(el);
+    }
+    setTimeout(function(){box.innerHTML='';},5500);
+  }
+
+  c.addEventListener('pointerdown',function(e){
+    if(done)return;
+    down=true;last=null;
+    try{c.setPointerCapture(e.pointerId);}catch(err){}
+    draw(e);
+  });
+  c.addEventListener('pointermove',draw);
+  function up(){if(down){down=false;last=null;check();}}
+  c.addEventListener('pointerup',up);
+  c.addEventListener('pointercancel',up);
+  // iOS 구버전 대비: 코팅 위 터치 스크롤 차단
+  c.addEventListener('touchmove',function(e){if(!done)e.preventDefault();},{passive:false});
+
+  window.addEventListener('resize',function(){
+    if(total&&!done&&!touched&&Math.abs(area.getBoundingClientRect().width-paintedW)>1)paint();
+  });
+
+  function start(n){
+    total=n;save();
+    document.body.classList.remove('pick');
+    if(used>=total){done=true;document.body.classList.add('won');} // 이미 다 긁은 기기는 새로고침해도 당첨 화면 유지
+    updateCount();
+    paint();
+    window.scrollTo(0,0);
+  }
+  var opts=document.querySelectorAll('.opt');
+  for(var i=0;i<opts.length;i++)opts[i].addEventListener('click',function(){if(!total)start(parseInt(this.getAttribute('data-n'),10));});
+
+  if(total)start(total);else document.body.classList.add('pick');
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){if(total&&!touched&&!done)paint();});
+})();
+</script>
+</body>
+</html>
